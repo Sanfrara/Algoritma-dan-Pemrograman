@@ -200,3 +200,166 @@ include_once 'loker_buku.php';
 </body>
 </html>
 ```
+
+**tampil_buku.php**
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<?php
+include_once 'buku.php';
+
+function tampilSemuaBuku() {
+    $buku = new Buku();
+    $data_buku = $buku->tampilSemuaBuku();
+    // echo "<h2 class='text-center'>Data Buku</h2>";
+    // echo "<div class='container text-center mb-4'>
+    //         <div class='horizontal-line'>
+    //             <span class='text-opacity bg-light text-dark p-2'>Menampilkan Seluruh Data Buku</span>
+    //         </div>
+    //       </div>";
+    if ($data_buku) {
+        foreach ($data_buku as $row):
+            echo "<tr>
+            <td>" . htmlspecialchars($row['loker_buku']) . "</td>
+           <td>" . htmlspecialchars($row['judul_buku']) . "</td>
+           <td>" . htmlspecialchars($row['nama_pengarang']) . "</td>
+            <td>" . htmlspecialchars($row['tahun_terbit']) . "</td>
+           <td>" . htmlspecialchars($row['penerbit']) . "</td>
+            </tr>";
+        endforeach;
+        echo "</tbody></table>";
+    } else {
+        echo "<p>Data buku tidak ditemukan.</p>";
+    }
+}
+?> 
+<div class="container">
+  <h2>Sistem Perpustakaan</h2>
+ 
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link " href="halaman.php">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active"  href="tampil_buku.php">Data Buku</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="tampil_loker_buku.php">Loker Buku</a>
+    </li>
+  </ul>
+
+<table id='table-data-buku' class='table-border'>
+                <thead>
+                    <tr>
+                        <th>Loker Buku</th>
+                        <th>Judul Buku</th>
+                        <th>Nama Pengarang</th>
+                        <th>Tahun Terbit</th>
+                        <th>Penerbit</th>
+                    </tr>
+                </thead>
+                <tbody>
+</div>
+   
+</body>
+</html>
+```
+
+**tampil_loker_buku.php**
+```php
+<!DOCTYPE html>
+<html lang="en">
+<h<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2>Sistem Perpustakaan</h2>
+ 
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link " href="halaman.php">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link "  href="tampil_buku.php">Data Buku</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="tampil_loker_buku.php">Loker Buku</a>
+    </li>
+  </ul>
+
+<table id='table-data-buku' class='table table-striped'>
+                <thead>
+                    <tr>
+                        <th>Loker Buku</th>
+                        <th>Judul Buku</th>
+                        <th>Nama Pengarang</th>
+                        <th>Tahun Terbit</th>
+                        <th>Penerbit</th>
+                    </tr>
+                </thead>
+                <tbody>
+</div>
+
+<?php
+include_once 'loker_buku.php';
+
+function tampilLokerBuku($loker) {
+    $loker_buku = new LokerBuku();
+    $data_buku_resep = $loker_buku->tampilDataBuku($loker);
+    echo "<h2 class='text-center'>.:: Buku Resep Masakan ::.</h2>";
+    echo "<div class='container text-center mb-4'>
+            <div class='horizontal-line'>
+                <span class='text-opacity bg-light text-dark p-2'>
+                    Menampilkan Data Buku dengan \"Loker Buku = $loker\"
+                </span>
+            </div>
+          </div>";
+    if ($data_buku_resep) {
+        echo "<table id='table-buku-resep' class='table table-striped'>
+                <thead>
+                    <tr>
+                        <th>Loker Buku</th>
+                        <th>Judul Buku</th>
+                        <th>Nama Pengarang</th>
+                        <th>Tahun Terbit</th>
+                        <th>Penerbit</th>
+                    </tr>
+                </thead>
+                <tbody>";
+        foreach ($data_buku_resep as $row) {
+            echo "<tr>
+                    <td>{$row['loker_buku']}</td>
+                    <td>{$row['judul_buku']}</td>
+                    <td>{$row['nama_pengarang']}</td>
+                    <td>{$row['tahun_terbit']}</td>
+                    <td>{$row['penerbit']}</td>
+                  </tr>";
+        }
+        echo "</tbody></table>";
+    } else {
+        echo "<p>Data Buku Resep Makanan tidak ditemukan.</p>";
+    }
+}
+?>
+</html>
+```
