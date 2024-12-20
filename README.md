@@ -6,6 +6,115 @@ Dalam penyusunan karya ini, kami berupaya menghadirkan materi yang sistematis, m
 
 Kami menyadari bahwa karya ini masih jauh dari sempurna. Oleh karena itu, kami mengundang pembaca untuk memberikan masukan dan kritik yang membangun untuk pengembangan karya ini di masa mendatang. Semoga karya ini dapat memberikan manfaat bagi para pembaca dalam memperdalam pemahaman mereka tentang algoritma dan pemrograman berorientasi objek.
 
+**buku.php**
+```php
+<?php
+class Buku
+{
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->connectDB();
+    }
+
+    private function connectDB()
+    {
+        $host = "localhost";
+        $database = "dbperpus";
+        $username = "root";
+        $password = "";
+
+        $this->conn = new mysqli($host, $username, $password, $database);
+        if ($this->conn->error) {
+            die("Koneksi dabatase MySQL gagal: " . $this->conn->error);
+        }
+    }
+
+    public function tampilSemuaBuku()
+    {
+        $data = mysqli_query(
+            $this->conn,
+            "SELECT * FROM buku"
+        );
+        $hasil = [];
+        while ($row = mysqli_fetch_assoc($data)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+}
+
+?>
+```
+
+**loker_buku.php**
+```php
+<?php
+
+include_once 'buku.php';
+class LokerBuku extends Buku
+{
+    public function tampilDataBuku($loker_buku)
+    {
+        $hasil = [];
+        $data = mysqli_query(
+            $this->conn,
+            "SELECT * FROM buku
+             WHERE loker_buku='" . $loker_buku . "'"
+        );
+        while ($row = mysqli_fetch_assoc($data)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+}
+
+?>
+```
+
+**dashboard.php**
+```php
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <center><h2>Sistem Perpustakaan</h2></center>
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a  href="index.php">Beranda</a></li>
+    <li ><a  href="tampil_buku.php">Daftar Buku</a></li>
+    <li><a  href="tampil_loker_buku.php">Daftar Loker</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+    
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Tampil Buku</h3>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Tampil Loker</h3>
+    </div>
+    
+  </div>
+
+  <h2>Selamat Datang!</h2>
+  <p>Semua judul buku lengkap ada disini, silahkan mencacri judul yang anda inginkan!</p>
+</body>
+</html>
+```
+
 **tampil_buku.php**
 ```php
 <?php
